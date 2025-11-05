@@ -1,0 +1,22 @@
+{
+  "data_dir": "./data",
+  "output_dir": "./data",
+  "cache_dir": "./data/cache",
+  "model_name_extraction": "gpt-4o-mini",
+  "model_name_verification": "gpt-4o-mini",
+  "label_n": 5,
+  "pre_veri_label_m": 6,
+  "stride": 0,
+  "search_res_num": 5,
+  "verify_res_num": 10,
+  "token_prob_threshold": 0.995,
+  "uncertainty_threshold": null,
+  "do_not_pre_verify": false,
+  "response_worker_num": 32,
+  "search_worker_num": 3,
+  "use_external_extraction_model": false,
+  "use_external_verification_model": false,
+  "use_base_extraction_model": false,
+  "use_base_verification_model": false,
+  "ignore_cache": false
+}

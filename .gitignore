@@ -1,0 +1,166 @@
+*.sh
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# # Virtual environments
+# venv/
+# env/
+# ENV/
+# env.bak/
+# venv.bak/
+# .venv/
+# .env/
+
+# # Environment variables and secrets
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
+# .env.*
+# *.env
+# secrets.json
+# # config.json
+# credentials.json
+# api_keys.txt
+# .secrets
+
+# API Keys and tokens
+*api_key*
+*secret*
+*token*
+*password*
+*credential*
+
+# Data directories and files
+# /data/
+# data/
+# *.jsonl
+# *.json
+# *.csv
+# *.tsv
+# *.parquet
+# *.pkl
+# *.pickle
+# *.h5
+# *.hdf5
+# *.db
+# *.sqlite
+# *.sqlite3
+
+# Cache directories
+cache/
+.cache/
+data/cache/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Model files and checkpoints
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.h5
+models/
+checkpoints/
+weights/
+*.model
+
+# Logs and debugging
+*.log
+logs/
+log/
+*.out
+*.err
+debug.log
+error.log
+access.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# Output and results
+# output/
+# outputs/
+# results/
+# results/
+# *.output
+# *.result
+
+
+# Large files that shouldn't be in git
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.dmg
+*.iso
+
+# Documentation build
+docs/_build/
+site/

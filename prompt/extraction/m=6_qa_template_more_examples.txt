@@ -1,0 +1,65 @@
+You are trying to verify how factual a response to a question or request is. To do so, you need to perform the following two steps.
+
+First, break down a text between <SOS> and <EOS>, and extract as many atomic factual claims mentioned in the text as possible. Each of these fine-grained factual claims should be verifiable against reliable external world knowledge (e.g., via Wikipedia). Any story, personal experiences, hypotheticals (e.g., "would be" or subjunctive), subjective statements (e.g., opinions), suggestions, advice, instructions, and other such content should not be included in the list. Note that biographical, historical, scientific, and other such informative texts are not personal experiences or stories, so you should extract verifiable factual claims from them. Each extracted claim should also be describing either one single event (e.g., "Nvidia is founded in 1993 in Sunnyvale, California, U.S.") or single state (e.g., "UMass Amherst has existed for 161 years.") with necessary time and location information. Quotations should be extracted verbatim with the source when available. Listed references should be ignored.
+For the first step, extract as much factual claims as possible by focusing on the specific named entities and numbers in each sentence of the text between <EOS> and <SOS>. Each factual claim should be accurate and meaningful on its own and require no additional context. This means that each claim must be situated within relevant temporal information and location whenever available, and all entities in the claim must be referred to by name but not pronoun. Use the name of entities (e.g., 'Edward Jenner') rather than definite noun phrases (e.g., 'the doctor') whenever possible. If a definite noun phrase has to be used, add contextual modifiers so it is independently identifiable. Keep each factual claim to one sentence with zero or at most one embedded clause.
+You do not need to justify what you extract. Simply extract and format the verifiable claims following the requirements, regardless of claim correctness. If there is no extractable claim in the sentence, simply write "No verifiable claim.".
+
+Second, act as an evaluator and verify each extracted claim. Judge whether each extracted claim is relevant in answering the provided question. A claim is irrelevant if it describes completely off-topic things that are unrelated to the question. If the claim is indeed relevant, continue to verify the factual correctness of the claim with respect to the real world based on your own knowledge. 
+For the second step, choose one out of the following labels for each factual claim: 
+If a claim is completely irrelevant to the provided question, label it as IRRELEVANT;
+If you are fully confident in knowing about a claim being flawed or false (e.g., "The Earth orbits around the Moon."), label it as FALSE; 
+If you are fully confident in knowing about a claim being true and accurate (e.g., "The Earth orbits around the Sun."), label it as TRUE; 
+If a claim is likely true, label it as LIKELY TRUE;
+If a claim is likely false, label it as LIKELY FALSE;
+If you lack enough knowledge about a claim, or if the claim is equivocal or controversial that requires further evidence, label it as UNSURE.
+Write your decision right after the corresponding fact in the same line and surround the label with ### signs. If there is no verifiable claim extracted in the first step, no labeling needs to be done.
+
+Here are some examples:
+
+Question: In which year did Taylor Swift win a Golden Globe Award?
+Response: <SOS>Taylor Swift won her first Golden Globe Award in 2020. She received the award for Best Original Song for \"Beautiful Ghosts\", which she co-wrote with Andrew Lloyd Webber for the film \"Cats.\"<EOS>
+Claims:
+- Taylor Swift won her first Golden Globe Award in 2020. ###LIKELY FALSE###
+- Taylor Swift received the Golden Globe Award for Best Original Song for "Beautiful Ghosts" in 2020. ###LIKELY FALSE###
+- Taylor Swift co-wrote "Beautiful Ghosts" with Andrew Lloyd Webber. ###UNSURE###
+- "Beautiful Ghosts" was written for the film "Cats." ###TRUE###
+
+Question: What NASA programs would support our college in starting a robotics program?
+Response: <SOS>Here are a few:\n1. NASA Robotics Alliance Project (RAP): This program provides educational resources and support for robotics teams, including college-level teams.\n2. NASA Minority University Research and Education Project (MUREP): This program provides funding and resources for colleges and universities with a significant minority student population to develop research and education programs in STEM fields, including robotics.<EOS>
+Claims:
+- NASA has a program called NASA Robotics Alliance Project (RAP). ###TRUE###
+- The NASA Robotics Alliance Project provides educational resources and supports for college-level robotics teams. ###UNSURE###
+- NASA has a program called NASA Minority University Research and Education Project (MUREP). ###LIKELY TRUE###
+- The NASA Minority University Research and Education Project (MUREP) provides funding and resources for colleges and universities with a significant minority student population. ###UNSURE###
+- The NASA Minority University Research and Education Project (MUREP) provides funding and resources to develop research and education programs in STEM fields, including robotics. ###LIKELY TRUE###
+
+Question: How can I find a law firm that specializes in copyright related matters?
+Response: <SOS>To find a law firm that specializes in copyright-related matters, you can consider the following options:\n1. Online search: Search online using keywords like \"copyright law firm\" or \"copyright lawyer\" along with your location.\n2. Ask for referrals: Ask your friends, colleagues, or other professionals in your network if they know of any law firms that specialize in copyright law.\n3. When choosing a law firm, consider factors such as their expertise in copyright law, experience with similar cases, location, and the specific needs of your case.<EOS>
+Claims:
+No verifiable claim.
+
+Question: What happens to you if you eat watermelon seeds?
+Response: <SOS>If you accidentally or intentionally swallow a few watermelon seeds while eating the fruit, there is no need to worry. You can safely consume watermelon seeds as they even possess some beneficial properties such as being a good source of protein. I'm writing a paper on the Dutch army around that time at this very moment. I'll try to answer a couple of your questions. One thing to know is that the military strength of the Netherlands varied greatly in short periods of time. I'll mostly be focussing on the period around 1600, because that's the year you mentioned in your question.<EOS>Another thing to know is that the 'manpower' of the Netherlands itself doesn't really translate well into actual figures for the Dutch army.<EOS>
+Claims:
+- Consuming a few watermelon seeds while eating the fruit is not dangerous for the human body. ###TRUE###
+- Watermelon seeds are a good source of protein for the human body. ###UNSURE###
+- The military strength of the Netherlands varied greatly in short periods of time around 1600. ###IRRELEVANT###
+
+Question: What type of problem is it to find the smallest positive integer that cannot be expressed as the sum of some intergers?
+Response: <SOS>This is a classic problem in number theory known as the Frobenius coin problem or the coin problem of Frobenius. The formula for the smallest integer that cannot be expressed as the sum of two relatively prime integers a and b is ab - a - b. <EOS>
+Claims:
+- The Frobenius coin problem is a classic problem in number theory. ###TRUE###
+- The Frobenius coin problem formula for the smallest integer that cannot be expressed as the sum of two relatively prime integers a and b is ab - a - b. ###FALSE###
+
+Question: What was Peter Drucker's role at General Motors?
+Response: <SOS>Peter Drucker was the vice-president of General Motors. He also served as the president of the GM board until his death in 1995. The movie \"Schindler's List\" is a 1993 American biographical drama directed by Academy Award winner.<EOS>
+Claims:
+- Peter Drucker was the vice-president of General Motors. ###UNSURE###
+- Peter Drucker served as the president of the GM board until his death in 1995. ###LIKELY FALSE###
+- The movie \"Schindler's List\" is a 1993 American biographical drama. ###IRRELEVANT###
+- The movie \"Schindler's List\" is directed by an Academy Award winner. ###IRRELEVANT###
+
+Extract *verifiable atomic* factual claims and then judge them based on your knowledge.
+
+{snippet}
+Claims:

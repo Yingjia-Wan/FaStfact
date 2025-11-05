@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annotation Tool</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: 20px;}
+        h1, h2, h3 { color: #555; }
+
+        #sampleArea {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        #sampleArea.sticky-active {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            max-height: 40vh;
+            overflow-y: auto;
+            border-bottom: 2px solid #ccc;
+        }
+
+        #task1Area, #task2Area { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        #questionText, #responseText { background-color: #e9e9e9; padding: 10px; border-radius: 4px; white-space: pre-wrap; }
+
+        textarea { width: 95%; min-height: 60px; margin-bottom: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #0056b3; }
+        .nav-button { background-color: #5cb85c; }
+        .nav-button:hover { background-color: #4cae4c; }
+        button.confirm-removal-btn { background-color: #28a745; } /* Green for confirm */
+        button.confirm-removal-btn:hover { background-color: #218838; }
+        button.cancel-removal-btn, button.undo-removal-btn { background-color: #ffc107; color: #333; } /* Yellow for cancel/undo */
+        button.cancel-removal-btn:hover, button.undo-removal-btn:hover { background-color: #e0a800; }
+        button.remove-claim-btn { background-color: #dc3545; } /* Red for remove */
+        button.remove-claim-btn:hover { background-color: #c82333; }
+        /* Style for the new Cancel Add Claim button */
+        button.cancel-add-new-claim-btn { background-color: #ffc107; color: #333; }
+        button.cancel-add-new-claim-btn:hover { background-color: #e0a800; }
+
+
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        button:disabled:hover { background-color: #ccc; }
+        #saveAnnotationsButton { background-color: #d9534f; }
+        #saveAnnotationsButton:hover { background-color: #c9302c; }
+        #proceedToVerificationButton { background-color: #007bff; }
+        #proceedToVerificationButton:hover { background-color: #0056b3; }
+
+        ul { list-style-type: none; padding: 0; }
+        li.claim-item { background-color: #f9f9f9; border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 4px; }
+        .original-claim-text, .revised-claim-text-task2, .removed-claim-text-display { font-style: italic; color: #777; }
+        .removed-claim-text-display { background-color: #f0f0f0; padding: 5px; border-radius: 3px; display: inline-block; }
+        .verification-context-task2, .verification-reasoning-task2 {
+            white-space: pre-wrap;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-bottom: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+        .verification-context-task2 { background-color: #eef; }
+        .verification-reasoning-task2 { background-color: #f0e6ff; }
+        .system-label-task2, .removal-label-display { font-weight: bold; }
+        .removal-label-display { color: #dc3545; }
+        .correction-options, .new-claim-verification, .removal-reason-selector { margin-top: 10px; }
+        select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; margin-right: 5px;}
+        #sampleIndicator, #sampleIndicatorBottom { font-weight: bold; margin: 0 15px; }
+        .hidden { display: none; }
+        .info-message { padding: 10px; background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; border-radius: 4px; margin-bottom: 15px;}
+        .navigation-footer { margin-top: 30px; padding-top:15px; border-top:1px solid #ddd; text-align: center;}
+        .add-claim-interstitial { display: block; margin: 10px auto; background-color: #28a745; }
+        .add-claim-interstitial:hover { background-color: #218838; }
+        .search-link { text-decoration: none; margin-left: 8px; font-size: 0.9em; }
+        .search-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Annotation Tool</h1>
+
+        <input type="file" id="fileUpload" accept=".jsonl">
+        <hr>
+
+        <div id="navigationControls" class="hidden" style="display: flex; justify-content: center; align-items: center;">
+            <button id="prevSampleButton" class="nav-button">Previous Sample</button>
+            <span id="sampleIndicator">Sample 0/0</span>
+            <button id="nextSampleButton" class="nav-button">Next Sample</button>
+        </div>
+
+        <div id="sampleDisplayArea" class="hidden">
+            <div id="sampleArea">
+                <h2>Question:</h2>
+                <p id="questionText"></p>
+                <h2>Response:</h2>
+                <p id="responseText"></p>
+            </div>
+
+            <div id="task1Area">
+                <h3>Task 1: Revise Claims</h3>
+                <ul id="claimsListTask1"></ul>
+                <hr>
+                <button id="proceedToVerificationButton">Proceed to Claim Verification</button>
+            </div>
+
+            <div id="task2Area" class="hidden">
+                <h3>Task 2: Verify Claims</h3>
+                <div id="task2InfoMessage" class="info-message hidden"></div>
+                <ul id="claimsListTask2"></ul>
+                <hr>
+                <button id="backToTask1Button">Back to Claim Revision/Removal</button>
+            </div>
+
+            <div id="navigationControlsBottom" class="hidden navigation-footer" style="display: flex; justify-content: center; align-items: center;">
+                <button id="prevSampleButtonBottom" class="nav-button">Previous Sample</button>
+                <span id="sampleIndicatorBottom">Sample 0/0</span>
+                <button id="nextSampleButtonBottom" class="nav-button">Next Sample</button>
+            </div>
+            <hr>
+            <button id="saveAnnotationsButton" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto;">Save All Annotations</button>
+        </div>
+        <div id="noFileLoadedMessage">Please upload a .jsonl file to begin.</div>
+    </div>
+
+    <script>
+        let originalSamples = [];
+        let annotations = [];
+        let currentSampleIndex = 0;
+        let fileName = 'annotated_output.jsonl';
+
+        const verificationLabels = [
+            "supported",
+            "refuted",
+            "conflicting evidence",
+            "not enough evidence",
+            "irrelevant"
+        ];
+
+        const removalReasonLabels = ["redundant", "not a claim"];
+
+        // DOM Elements
+        const fileUpload = document.getElementById('fileUpload');
+        const navigationControls = document.getElementById('navigationControls');
+        const sampleIndicator = document.getElementById('sampleIndicator');
+        const prevSampleButton = document.getElementById('prevSampleButton');
+        const nextSampleButton = document.getElementById('nextSampleButton');
+
+        const navigationControlsBottom = document.getElementById('navigationControlsBottom');
+        const sampleIndicatorBottom = document.getElementById('sampleIndicatorBottom');
+        const prevSampleButtonBottom = document.getElementById('prevSampleButtonBottom');
+        const nextSampleButtonBottom = document.getElementById('nextSampleButtonBottom');
+
+        const sampleDisplayArea = document.getElementById('sampleDisplayArea');
+        const noFileLoadedMessage = document.getElementById('noFileLoadedMessage');
+
+        const questionText = document.getElementById('questionText');
+        const responseText = document.getElementById('responseText');
+
+        const task1Area = document.getElementById('task1Area');
+        const noVerifiableClaimsCheckbox = document.getElementById('noVerifiableClaimsCheckbox'); 
+        const claimsListTask1 = document.getElementById('claimsListTask1');
+        const proceedToVerificationButton = document.getElementById('proceedToVerificationButton');
+
+        const task2Area = document.getElementById('task2Area');
+        const task2InfoMessage = document.getElementById('task2InfoMessage');
+        const claimsListTask2 = document.getElementById('claimsListTask2');
+        const backToTask1Button = document.getElementById('backToTask1Button');
+
+        const saveAnnotationsButton = document.getElementById('saveAnnotationsButton');
+
+        // Event Listeners
+        fileUpload.addEventListener('change', handleFileUpload);
+
+        prevSampleButton.addEventListener('click', () => navigateSample(-1));
+        nextSampleButton.addEventListener('click', () => navigateSample(1));
+        prevSampleButtonBottom.addEventListener('click', () => navigateSample(-1));
+        nextSampleButtonBottom.addEventListener('click', () => navigateSample(1));
+
+        proceedToVerificationButton.addEventListener('click', showTask2);
+        backToTask1Button.addEventListener('click', showTask1);
+        saveAnnotationsButton.addEventListener('click', saveAnnotationsToFile);
+
+        function scrollTopBody() {
+            window.scrollTo(0, 0);
+        }
+
+        function handleFileUpload(event) {
+            scrollTopBody();
+            const file = event.target.files[0];
+            if (file) {
+                fileName = file.name.replace('.jsonl', '_annotated.jsonl');
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const lines = e.target.result.split('\n').filter(line => line.trim() !== '');
+                    try {
+                        originalSamples = lines.map(line => JSON.parse(line));
+                        initializeAnnotations(); 
+                        currentSampleIndex = 0;
+                        displaySample(currentSampleIndex);
+                        navigationControls.style.display = 'flex';
+                        navigationControlsBottom.style.display = 'flex';
+                        sampleDisplayArea.classList.remove('hidden');
+                        noFileLoadedMessage.classList.add('hidden');
+                    } catch (error) {
+                        console.error("Error parsing JSONL file:", error);
+                        alert("Error parsing JSONL file. Please ensure it's valid and check the console.");
+                        noFileLoadedMessage.textContent = "Error loading file. Please check console and try a valid .jsonl file.";
+                        noFileLoadedMessage.classList.remove('hidden');
+                        navigationControls.style.display = 'none';
+                        navigationControlsBottom.style.display = 'none';
+                        sampleDisplayArea.classList.add('hidden');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function initializeAnnotations() {
+            annotations = originalSamples.map((sample, sampleIndex) => {
+                const loadedClaimsList = sample.claims_lst || [];
+                
+                const claims = loadedClaimsList.map(loadedClaim => {
+                    if (loadedClaim.annotation_status_details && loadedClaim.annotation_status_details.status === "no_valid_claims_after_processing") {
+                        return null; 
+                    }
+
+                    let annClaim = {
+                        originalClaimData: null,
+                        revisedText: "",
+                        status: 'active', 
+                        removalLabel: null,
+                        verificationAgreement: null,
+                        correctedLabel: null,
+                        userAssignedLabelForNew: null,
+                        isFreshlyAdded: false // Default to false for loaded claims unless identified as new
+                    };
+
+                    const isAnnotated = loadedClaim.annotation_status_details && loadedClaim.annotator_label !== undefined;
+
+                    if (isAnnotated) {
+                        const details = loadedClaim.annotation_status_details;
+
+                        if (details.action === 'new' || details.origin === 'new') {
+                            annClaim.originalClaimData = null; 
+                            annClaim.revisedText = loadedClaim.claim; 
+                            annClaim.status = 'new'; 
+                            
+                            if (details.action === 'removed') { 
+                                annClaim.status = 'removed_labeled';
+                                annClaim.removalLabel = details.reason;
+                                // isFreshlyAdded remains false as it's already processed beyond the "fresh" state
+                            } else { 
+                                annClaim.userAssignedLabelForNew = loadedClaim.annotator_label;
+                                annClaim.isFreshlyAdded = true; // Mark as "fresh" for UI if it's a loaded annotator-added claim
+                            }
+                        } 
+                        else { 
+                            annClaim.originalClaimData = { ...loadedClaim };
+                            delete annClaim.originalClaimData.annotator_label;
+                            delete annClaim.originalClaimData.annotation_status_details;
+                            delete annClaim.originalClaimData.revised_claim;
+                           
+                            annClaim.revisedText = loadedClaim.revised_claim || loadedClaim.claim;
+
+                            if (details.action === 'removed') {
+                                annClaim.status = 'removed_labeled';
+                                annClaim.removalLabel = details.reason;
+                            } else if (details.action === 'kept') {
+                                annClaim.status = 'active'; 
+                                if (details.agreement === 'agreed') {
+                                    annClaim.verificationAgreement = 'Agree';
+                                } else if (details.agreement === 'disagreed_corrected') {
+                                    annClaim.verificationAgreement = 'Disagree';
+                                    annClaim.correctedLabel = loadedClaim.annotator_label; 
+                                } else if (details.agreement === 'verification_pending') {
+                                    // Defaults are fine
+                                }
+                            }
+                        }
+                    } else { // Not previously annotated by this tool (or old format)
+                        annClaim.originalClaimData = { ...loadedClaim }; 
+                        annClaim.revisedText = loadedClaim.claim || ""; 
+                        annClaim.status = 'active';
+                    }
+                    return annClaim;
+                }).filter(claim => claim !== null); 
+
+
+                let initialNoVerifiable = claims.length === 0;
+                if (noVerifiableClaimsCheckbox && initialNoVerifiable && sample.response && typeof sample.response === 'string' && 
+                    (sample.response.toLowerCase().includes("no verifiable claim") || sample.response.toLowerCase().includes("no claims to verify"))) {
+                    initialNoVerifiable = true;
+                }
+                
+                return {
+                    originalSampleIndex: sampleIndex,
+                    originalSample: sample, 
+                    claims: claims,
+                    noVerifiableClaims: initialNoVerifiable,
+                };
+            });
+        }
+
+
+        function persistTask1Changes() {
+            if (!annotations[currentSampleIndex]) return;
+            // The isFreshlyAdded flag is NO LONGER cleared here. It persists with the claim.
+            if (noVerifiableClaimsCheckbox) { 
+                annotations[currentSampleIndex].noVerifiableClaims = noVerifiableClaimsCheckbox.checked;
+            }
+        }
+
+        function navigateSample(direction) {
+            persistTask1Changes(); 
+            const newIndex = currentSampleIndex + direction;
+            if (newIndex >= 0 && newIndex < annotations.length) {
+                currentSampleIndex = newIndex;
+                displaySample(currentSampleIndex);
+            }
+        }
+
+        function displaySample(index) {
+            scrollTopBody();
+            if (!annotations[index]) return;
+
+            const currentAnnotation = annotations[index];
+            const originalSample = currentAnnotation.originalSample; 
+
+            questionText.textContent = originalSample.question || "N/A";
+            responseText.textContent = originalSample.response || "N/A";
+            
+            updateSampleIndicator();
+            renderTask1(currentAnnotation); 
+            showTask1(); 
+            
+            const isFirstSample = index === 0;
+            const isLastSample = index === annotations.length - 1;
+            prevSampleButton.disabled = isFirstSample;
+            nextSampleButton.disabled = isLastSample;
+            prevSampleButtonBottom.disabled = isFirstSample;
+            nextSampleButtonBottom.disabled = isLastSample;
+        }
+        
+        function updateSampleIndicator() {
+            const indicatorText = `Sample ${currentSampleIndex + 1}/${annotations.length}`;
+            sampleIndicator.textContent = indicatorText;
+            sampleIndicatorBottom.textContent = indicatorText;
+        }
+
+        function renderTask1(annotationData) {
+            claimsListTask1.innerHTML = ''; 
+
+            const hasProcessableClaims = annotationData.claims.some(c => c.status !== 'removed_labeled' && c.status !== 'marked_for_removal');
+            const canAddClaims = true; 
+            proceedToVerificationButton.style.display = (hasProcessableClaims || annotationData.claims.filter(c => c.status !== 'removed_labeled').length === 0 || canAddClaims) ? 'inline-block' : 'none';
+
+
+            const makeAddButton = (insertAtIndexInAnnotationClaims) => {
+                const button = document.createElement('button');
+                button.textContent = `+ Add New Claim`;
+                button.classList.add('add-claim-interstitial');
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    addNewClaimToTask1(insertAtIndexInAnnotationClaims);
+                });
+                return button;
+            };
+
+            claimsListTask1.appendChild(makeAddButton(0));
+
+            annotationData.claims.forEach((claim, annClaimIndex) => {
+                const li = document.createElement('li');
+                li.classList.add('claim-item');
+                li.dataset.annotationClaimIndex = annClaimIndex; 
+
+                let originalClaimHTML = '';
+                if (claim.originalClaimData && claim.originalClaimData.claim) {
+                    originalClaimHTML = `<p><strong>Original Claim:</strong> <span class="original-claim-text">${escapeHtml(claim.originalClaimData.claim)}</span></p>`;
+                } else if (claim.status === 'new') { 
+                    originalClaimHTML = `<p><strong>New Claim (added by annotator):</strong></p>`;
+                }
+
+                if (claim.status === 'active') {
+                    li.innerHTML = originalClaimHTML;
+                    const revisedTextArea = document.createElement('textarea');
+                    revisedTextArea.classList.add('revised-claim-input');
+                    revisedTextArea.value = claim.revisedText;
+                    revisedTextArea.placeholder = "Enter claim text here...";
+                    revisedTextArea.addEventListener('input', (e) => {
+                        claim.revisedText = e.target.value; 
+                    });
+                    li.appendChild(revisedTextArea);
+
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove Claim';
+                    removeButton.classList.add('remove-claim-btn');
+                    removeButton.addEventListener('click', () => {
+                        claim.status = 'marked_for_removal';
+                        delete claim.isFreshlyAdded; // No longer "fresh" if going through removal
+                        renderTask1(annotationData); 
+                    });
+                    li.appendChild(removeButton);
+
+                } else if (claim.status === 'new') {
+                    li.innerHTML = originalClaimHTML; 
+                    const revisedTextArea = document.createElement('textarea');
+                    revisedTextArea.classList.add('revised-claim-input');
+                    revisedTextArea.value = claim.revisedText; 
+                    revisedTextArea.placeholder = "Enter claim text here...";
+                    revisedTextArea.addEventListener('input', (e) => { 
+                        claim.revisedText = e.target.value;
+                    });
+                    li.appendChild(revisedTextArea);
+
+                    // If claim.isFreshlyAdded is true (set on add or load for annotator-added claims),
+                    // always show "Cancel Add Claim".
+                    if (claim.isFreshlyAdded) { 
+                        const cancelAddNewButton = document.createElement('button');
+                        cancelAddNewButton.textContent = 'Cancel Add Claim';
+                        cancelAddNewButton.classList.add('cancel-add-new-claim-btn'); 
+                        cancelAddNewButton.addEventListener('click', () => {
+                            const claimIndexInAnnotation = annotationData.claims.indexOf(claim);
+                            if (claimIndexInAnnotation > -1) {
+                                annotationData.claims.splice(claimIndexInAnnotation, 1);
+                            }
+                            renderTask1(annotationData); 
+                        });
+                        li.appendChild(cancelAddNewButton);
+                    } else { 
+                        // This case should ideally not be hit for a 'new' status claim
+                        // if isFreshlyAdded is consistently managed.
+                        // This acts as a fallback if a 'new' claim somehow isn't marked 'isFreshlyAdded'.
+                        console.warn("Rendering 'new' claim without isFreshlyAdded flag, providing standard Remove button:", claim);
+                        const removeButton = document.createElement('button'); 
+                        removeButton.textContent = 'Remove Claim'; 
+                        removeButton.classList.add('remove-claim-btn');
+                        removeButton.addEventListener('click', () => {
+                            claim.status = 'marked_for_removal';
+                            delete claim.isFreshlyAdded; 
+                            renderTask1(annotationData);
+                        });
+                        li.appendChild(removeButton); 
+                    }
+
+                } else if (claim.status === 'marked_for_removal') {
+                    let initialHTML = '';
+                    if (claim.originalClaimData && claim.originalClaimData.claim) { 
+                        initialHTML = `<p><strong>Original Claim:</strong> <span class="original-claim-text">${escapeHtml(claim.originalClaimData.claim)}</span></p>`;
+                         if (claim.revisedText !== claim.originalClaimData.claim) { 
+                             initialHTML += `<p><strong>Current Text (being marked for removal):</strong> <span class="original-claim-text">${escapeHtml(claim.revisedText)}</span></p>`;
+                        }
+                    } else { 
+                         initialHTML = `<p><strong>New Claim (being marked for removal):</strong> <span class="original-claim-text">${escapeHtml(claim.revisedText)}</span></p>`;
+                    }
+                    li.innerHTML = initialHTML;
+                    
+                    const selectorDiv = document.createElement('div');
+                    selectorDiv.classList.add('removal-reason-selector');
+                    selectorDiv.innerHTML = `<label for="removal_reason_${annClaimIndex}">Reason for removal: </label>`;
+                    
+                    const selectReason = document.createElement('select');
+                    selectReason.id = `removal_reason_${annClaimIndex}`;
+                    selectReason.innerHTML = `<option value="">-- Select reason --</option>` +
+                                          removalReasonLabels.map(rLabel => `<option value="${rLabel}" ${claim.removalLabel === rLabel ? 'selected' : ''}>${escapeHtml(rLabel)}</option>`).join('');
+                    selectReason.addEventListener('change', (e) => {
+                        claim.removalLabel = e.target.value;
+                    });
+                    selectorDiv.appendChild(selectReason);
+                    li.appendChild(selectorDiv);
+
+                    const confirmBtn = document.createElement('button');
+                    confirmBtn.textContent = 'Confirm Removal Label';
+                    confirmBtn.classList.add('confirm-removal-btn');
+                    confirmBtn.addEventListener('click', () => {
+                        if (claim.removalLabel) {
+                            claim.status = 'removed_labeled';
+                            delete claim.isFreshlyAdded; // Finalized, not fresh
+                            renderTask1(annotationData);
+                        } else {
+                            alert("Please select a reason for removal.");
+                        }
+                    });
+                    li.appendChild(confirmBtn);
+
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.textContent = 'Cancel Removal';
+                    cancelBtn.classList.add('cancel-removal-btn');
+                    cancelBtn.addEventListener('click', () => {
+                        claim.status = claim.originalClaimData ? 'active' : 'new'; 
+                        if (!claim.originalClaimData) { // If it was a new claim
+                            claim.isFreshlyAdded = true; // Revert to "freshly added" state
+                        } else {
+                            delete claim.isFreshlyAdded; // Not applicable for original claims
+                        }
+                        claim.removalLabel = null;
+                        renderTask1(annotationData);
+                    });
+                    li.appendChild(cancelBtn);
+
+                } else if (claim.status === 'removed_labeled') {
+                    let removedClaimDisplayHTML = '';
+                    if (claim.originalClaimData && claim.originalClaimData.claim) { 
+                        removedClaimDisplayHTML = `<p><strong>Original Claim:</strong> <span class="original-claim-text">${escapeHtml(claim.originalClaimData.claim)}</span></p>`;
+                        removedClaimDisplayHTML += `<p><strong>Text when removed:</strong> <span class="removed-claim-text-display">${escapeHtml(claim.revisedText)}</span></p>`;
+                    } else { 
+                        removedClaimDisplayHTML = `<p><strong>New Claim (Text when removed):</strong> <span class="removed-claim-text-display">${escapeHtml(claim.revisedText)}</span></p>`;
+                    }
+                    li.innerHTML = removedClaimDisplayHTML + `<p class="removal-label-display">Marked as: ${escapeHtml(claim.removalLabel)}</p>`;
+                    
+                    const undoBtn = document.createElement('button');
+                    undoBtn.textContent = 'Undo Removal Marking';
+                    undoBtn.classList.add('undo-removal-btn');
+                    undoBtn.addEventListener('click', () => {
+                        claim.status = claim.originalClaimData ? 'active' : 'new'; 
+                        if (!claim.originalClaimData) { // If it was a new claim
+                           claim.isFreshlyAdded = true; // Revert to "freshly added" state
+                        } else {
+                            delete claim.isFreshlyAdded; // Not applicable
+                        }
+                        claim.removalLabel = null; 
+                        renderTask1(annotationData);
+                    });
+                    li.appendChild(undoBtn);
+                }
+                
+                claimsListTask1.appendChild(li);
+                claimsListTask1.appendChild(makeAddButton(annClaimIndex + 1));
+            });
+        }
+        
+        function addNewClaimToTask1(insertAtIndex = -1) { 
+            const newClaim = {
+                originalClaimData: null, 
+                revisedText: "", 
+                status: 'new',         
+                removalLabel: null,
+                verificationAgreement: null,
+                correctedLabel: null,
+                userAssignedLabelForNew: null,
+                isFreshlyAdded: true // Mark as freshly added for UI logic
+            };
+            const claimsArray = annotations[currentSampleIndex].claims;
+            if (insertAtIndex === -1 || insertAtIndex >= claimsArray.length) { 
+                claimsArray.push(newClaim);
+            } else { 
+                claimsArray.splice(insertAtIndex, 0, newClaim);
+            }
+            renderTask1(annotations[currentSampleIndex]); 
+        }
+
+        function showTask1() {
+            scrollTopBody();
+            task1Area.classList.remove('hidden');
+            task2Area.classList.add('hidden');
+            document.getElementById('sampleArea').classList.add('sticky-active');
+        }
+
+        function showTask2() {
+            scrollTopBody();
+            persistTask1Changes(); 
+            renderTask2(annotations[currentSampleIndex]);
+            task1Area.classList.add('hidden');
+            task2Area.classList.remove('hidden');
+            document.getElementById('sampleArea').classList.remove('sticky-active');
+        }
+
+        function getSystemVerificationLabel(claimData) {
+            if (!claimData) return "N/A";
+            if (claimData.verification_result && typeof claimData.verification_result.verification_label !== 'undefined') {
+                return claimData.verification_result.verification_label;
+            }
+            if (typeof claimData['pre-label'] !== 'undefined') { 
+                return claimData['pre-label'];
+            }
+            return "N/A"; 
+        }
+
+        function getVerificationContext(claimData) {
+            if (!claimData || !claimData.verification_result || typeof claimData.verification_result.verification_context === 'undefined') return "N/A";
+            return claimData.verification_result.verification_context;
+        }
+        
+        function getVerificationReasoning(claimData) { 
+            if (!claimData || !claimData.verification_result || typeof claimData.verification_result.reasoning_for_verification_label === 'undefined') return "N/A";
+            return claimData.verification_result.reasoning_for_verification_label;
+        }
+        
+        function renderTask2(annotationData) {
+            claimsListTask2.innerHTML = ''; 
+            task2InfoMessage.classList.add('hidden');
+
+            let claimsToProcessCount = 0;
+            annotationData.claims.forEach((claim, annClaimIndex) => {
+                if (claim.status === 'marked_for_removal') return; 
+                if ((claim.status === 'active' || claim.status === 'new') && (!claim.revisedText || claim.revisedText.trim() === "")) return; 
+                
+                claimsToProcessCount++;
+                const li = document.createElement('li');
+                li.classList.add('claim-item');
+                li.dataset.annotationClaimIndex = annClaimIndex;
+
+                const createSearchLink = (text) => {
+                    if (!text || text.trim() === "") return "";
+                    return `<a href="https://www.google.com/search?q=${encodeURIComponent(text)}" target="_blank" rel="noopener noreferrer" class="search-link" title="Search on Google">&#128269;</a>`;
+                };
+
+                if (claim.status === 'removed_labeled') {
+                    let removedClaimDisplayHTML = '';
+                     if (claim.originalClaimData && claim.originalClaimData.claim) { 
+                        removedClaimDisplayHTML = `<p><strong>Original Claim:</strong> <span class="original-claim-text">${escapeHtml(claim.originalClaimData.claim)}</span></p>`;
+                        removedClaimDisplayHTML += `<p><strong>Text when removed:</strong> <span class="removed-claim-text-display">${escapeHtml(claim.revisedText)}</span></p>`;
+                    } else { 
+                        removedClaimDisplayHTML = `<p><strong>New Claim (Text when removed):</strong> <span class="removed-claim-text-display">${escapeHtml(claim.revisedText)}</span></p>`;
+                    }
+                    li.innerHTML = removedClaimDisplayHTML + `<p class="removal-label-display">Marked as: ${escapeHtml(claim.removalLabel)}</p>`;
+                } else if (claim.originalClaimData) { 
+                    const systemLabel = getSystemVerificationLabel(claim.originalClaimData);
+                    const context = getVerificationContext(claim.originalClaimData);
+                    const reasoning = getVerificationReasoning(claim.originalClaimData); 
+                    
+                    const originalClaimText = claim.originalClaimData.claim;
+                    const revisedClaimText = claim.revisedText; 
+                    const isRevised = originalClaimText !== revisedClaimText;
+                    
+                    let claimDisplayHTML = '';
+                    const searchLinkHTML = createSearchLink(revisedClaimText); 
+
+                    if (isRevised) {
+                        claimDisplayHTML = `
+                            <p><strong>Original Claim:</strong> <span class="original-claim-text-task2">${escapeHtml(originalClaimText)}</span></p>
+                            <p><strong>Revised Claim:</strong> <span class="revised-claim-text-task2">${escapeHtml(revisedClaimText)}</span>${searchLinkHTML}</p>
+                        `;
+                    } else {
+                        claimDisplayHTML = `
+                            <p><strong>Original Claim:</strong> <span class="original-claim-text-task2">${escapeHtml(originalClaimText)}</span>${searchLinkHTML}</p>
+                        `;
+                    }
+
+                    li.innerHTML = `
+                        ${claimDisplayHTML}
+                        <p><strong>Verification Context (Evidence):</strong></p>
+                        <pre class="verification-context-task2">${escapeHtml(context)}</pre>
+                        <p><strong>Reasoning for System's Label:</strong></p>
+                        <pre class="verification-reasoning-task2">${escapeHtml(reasoning)}</pre> 
+                        <p><strong>System's Verification Label:</strong> <span class="system-label-task2">${escapeHtml(systemLabel)}</span></p>
+                        <div>
+                            Verification Agreement:
+                            <label><input type="radio" name="agreement_${annClaimIndex}" value="Agree" ${claim.verificationAgreement === 'Agree' ? 'checked' : ''}> Agree</label>
+                            <label><input type="radio" name="agreement_${annClaimIndex}" value="Disagree" ${claim.verificationAgreement === 'Disagree' ? 'checked' : ''}> Disagree</label>
+                        </div>
+                        <div class="correction-options" style="display: ${claim.verificationAgreement === 'Disagree' ? 'block' : 'none'};">
+                            Correct Label:
+                            <select class="corrected-label-select">
+                                <option value="">Select correct label</option>
+                                ${verificationLabels.map(label => `<option value="${label}" ${claim.correctedLabel === label ? 'selected' : ''}>${escapeHtml(label)}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                    
+                    const radios = li.querySelectorAll(`input[name="agreement_${annClaimIndex}"]`);
+                    const correctionDiv = li.querySelector('.correction-options');
+                    const selectCorrected = li.querySelector('.corrected-label-select');
+
+                    radios.forEach(radio => {
+                        radio.addEventListener('change', (e) => {
+                            claim.verificationAgreement = e.target.value;
+                            claim.userAssignedLabelForNew = null; 
+                            correctionDiv.style.display = (e.target.value === 'Disagree') ? 'block' : 'none';
+                            if (e.target.value !== 'Disagree') {
+                                claim.correctedLabel = null; 
+                                if(selectCorrected) selectCorrected.value = "";
+                            } else { 
+                                if(selectCorrected && !selectCorrected.value) {
+                                     claim.correctedLabel = null; 
+                                } else if (selectCorrected) {
+                                     claim.correctedLabel = selectCorrected.value;
+                                }
+                            }
+                        });
+                    });
+                    
+                    if(selectCorrected) {
+                        selectCorrected.addEventListener('change', (e) => {
+                            if (claim.verificationAgreement === 'Disagree') { 
+                                claim.correctedLabel = e.target.value;
+                            }
+                        });
+                    }
+                } else if (claim.status === 'new') { 
+                    const newClaimText = claim.revisedText;
+                    const searchLinkHTML = createSearchLink(newClaimText);
+                    li.innerHTML = `
+                        <p><strong>Newly Added Claim:</strong> <span class="revised-claim-text-task2">${escapeHtml(newClaimText)}</span>${searchLinkHTML}</p>
+                        <div class="new-claim-verification">
+                            Assign Verification Label:
+                            <select class="new-claim-label-select">
+                                <option value="">Select label</option>
+                                ${verificationLabels.map(label => `<option value="${label}" ${claim.userAssignedLabelForNew === label ? 'selected' : ''}>${escapeHtml(label)}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                    const selectNewLabel = li.querySelector('.new-claim-label-select');
+                    if (selectNewLabel) {
+                        selectNewLabel.addEventListener('change', (e) => {
+                            claim.userAssignedLabelForNew = e.target.value;
+                            claim.verificationAgreement = null; 
+                            claim.correctedLabel = null;      
+                        });
+                        if (!claim.userAssignedLabelForNew && selectNewLabel.value && claim.userAssignedLabelForNew === null) { 
+                           claim.userAssignedLabelForNew = selectNewLabel.value; 
+                        }
+                    }
+                }
+                claimsListTask2.appendChild(li);
+            });
+             if (claimsToProcessCount === 0 ) {
+                task2InfoMessage.textContent = "No claims available for verification at this stage. This could be because all claims were removed, or remaining claims have empty text.";
+                task2InfoMessage.classList.remove('hidden');
+            }
+        }
+
+        function saveAnnotationsToFile() {
+            persistTask1Changes(); 
+
+            const outputData = annotations.map((ann, sampleIdx) => {
+                const originalSampleCopy = { ...ann.originalSample }; 
+                
+                const processedClaimsList = ann.claims.map((claimAnn, claimIdx) => {
+                    let outputClaimObject;
+                    let annotatorLabelValue = null;
+                    let annotationStatusDetails = {}; 
+
+                    const claimToSave = { ...claimAnn };
+                    delete claimToSave.isFreshlyAdded; // Ensure this UI flag is not saved
+
+
+                    if (claimToSave.originalClaimData) { 
+                        outputClaimObject = { ...claimToSave.originalClaimData }; 
+                        outputClaimObject.claim = claimToSave.originalClaimData.claim; 
+                        if (claimToSave.revisedText !== claimToSave.originalClaimData.claim) {
+                            outputClaimObject.revised_claim = claimToSave.revisedText;
+                        } else {
+                            outputClaimObject.revised_claim = null; 
+                        }
+                    } else { 
+                        outputClaimObject = {
+                            claim: claimToSave.revisedText, 
+                            revised_claim: null 
+                        };
+                    }
+
+                    if (claimToSave.status === 'removed_labeled') {
+                        annotatorLabelValue = claimToSave.removalLabel;
+                        annotationStatusDetails = {
+                            action: 'removed',
+                            reason: claimToSave.removalLabel || "unknown" 
+                        };
+                        if (!claimToSave.originalClaimData) { 
+                            outputClaimObject.claim_id = `sample${sampleIdx}_new_removed_${claimIdx}`;
+                            annotationStatusDetails.origin = 'new';
+                        } else { 
+                             outputClaimObject.claim_id = claimToSave.originalClaimData.claim_id || `sample${sampleIdx}_orig_removed_${claimIdx}`;
+                        }
+                    } else if (claimToSave.status === 'active' || claimToSave.status === 'new') {
+                        if (!claimToSave.revisedText || claimToSave.revisedText.trim() === "") {
+                            return null; 
+                        }
+
+                        if (claimToSave.originalClaimData) { 
+                             outputClaimObject.claim_id = claimToSave.originalClaimData.claim_id || `sample${sampleIdx}_orig_kept_${claimIdx}`;
+                            const isRevised = outputClaimObject.revised_claim !== null;
+                            const modification = isRevised ? 'revised' : 'unchanged';
+                            annotationStatusDetails.action = 'kept';
+                            annotationStatusDetails.modification = modification;
+
+                            if (claimToSave.verificationAgreement === 'Agree') {
+                                annotatorLabelValue = getSystemVerificationLabel(claimToSave.originalClaimData);
+                                annotationStatusDetails.agreement = 'agreed';
+                            } else if (claimToSave.verificationAgreement === 'Disagree') {
+                                annotatorLabelValue = claimToSave.correctedLabel;
+                                annotationStatusDetails.agreement = 'disagreed_corrected';
+                            } else { 
+                                annotatorLabelValue = null; 
+                                annotationStatusDetails.agreement = 'verification_pending';
+                            }
+                        } else { // This is an annotator-added claim that was kept (not cancelled)
+                            annotatorLabelValue = claimToSave.userAssignedLabelForNew; // This would be set in Task 2
+                            annotationStatusDetails = {
+                                action: 'new', // Clearly mark as new
+                                label_source: 'annotator_assigned' // Or 'verification_pending' if not yet verified
+                            };
+                            if(annotatorLabelValue === null && claimToSave.revisedText.trim() !== ""){ // if new claim has text but no label from task2
+                                annotationStatusDetails.label_source = 'verification_pending';
+                            }
+                            outputClaimObject.claim_id = `sample${sampleIdx}_new_kept_${claimIdx}`; // New ID scheme for kept new claims
+                            delete outputClaimObject.verification_result;
+                            delete outputClaimObject['pre-label'];
+                            delete outputClaimObject.prelabel_confidence;
+                        }
+                    } else {
+                        return null; 
+                    }
+
+                    outputClaimObject.annotator_label = annotatorLabelValue;
+                    outputClaimObject.annotation_status_details = annotationStatusDetails;
+                    
+                    delete outputClaimObject.status; 
+                    delete outputClaimObject.removalLabel;
+                    delete outputClaimObject.verificationAgreement;
+                    delete outputClaimObject.correctedLabel;
+                    delete outputClaimObject.userAssignedLabelForNew;
+                    delete outputClaimObject.annotation_status_detail; 
+                    if (outputClaimObject.revised_claim === undefined) outputClaimObject.revised_claim = null;
+                    delete outputClaimObject.isFreshlyAdded; 
+
+
+                    return outputClaimObject;
+                }).filter(claim => claim !== null); 
+
+                if (processedClaimsList.length === 0 && !ann.noVerifiableClaims) { 
+                     originalSampleCopy.claims_lst = [{ 
+                        claim_id: `sample${sampleIdx}_no_valid_claims_after_processing`, 
+                        claim: "No claims remained after annotation processing (e.g., all were empty or in an intermediate state).", 
+                        annotation_status_details: { status: "no_valid_claims_after_processing" },
+                        revised_claim: null,
+                        annotator_label: null
+                    }];
+                } else if (processedClaimsList.length === 0 && ann.noVerifiableClaims) { 
+                     originalSampleCopy.claims_lst = [{ 
+                        claim_id: `sample${sampleIdx}_no_verifiable_claims_marked_by_user`, 
+                        claim: "User indicated no verifiable claims in the response.", 
+                        annotation_status_details: { status: "no_verifiable_claims_marked_by_user" },
+                        revised_claim: null,
+                        annotator_label: null
+                    }];
+                }
+                else {
+                    originalSampleCopy.claims_lst = processedClaimsList;
+                }
+                
+                originalSampleCopy.annotated_by_tool_on = new Date().toISOString(); 
+                return originalSampleCopy;
+            });
+
+            const jsonlString = outputData.map(obj => JSON.stringify(obj)).join('\n');
+            const blob = new Blob([jsonlString], { type: 'application/jsonl;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function escapeHtml(unsafe) {
+            if (unsafe === null || typeof unsafe === 'undefined') return ''; 
+            return String(unsafe)
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

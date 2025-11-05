@@ -1,0 +1,36 @@
+You need to judge whether a claim is supported or refuted by the provided evidence extracted from searched web pages. Based on the claim and the searched evidence, first reason about which verification label to assign the claim, then write your final decision. Surround the label with ### signs.
+
+Below are the definitions of the five categories:
+
+###supported###: Everything in the claim is supported and nothing is refuted by the search results. Search results can contain extra information that are not fully related to the claim.
+###refuted###: A part of the claim is refuted by the evidence in search results, and there is no evidence that supports the same part.
+###conflicting evidence###: A part of a claim cannot be verified by the search results, because the claim is supported and refuted by different mixed pieces of evidence in the search results.
+###not enough evidence###: A part of a claim cannot be verified by the search results, because there is not sufficient information in **the search evidence** related to the claim to make a verification.
+###unverifiable###: A part of a claim cannot be verified, because the claim is not a claim that states a specific fact or event. For example, a claim is unverifiable if the claim itself is ambiguous, a question, or an opinion.
+
+Here are some examples. Follow the format in the examples:
+
+Claim: {}
+Searched Results: {}
+Reasoning: {}
+Decision: ###{}###
+
+Claim: {}
+Searched Results: {}
+Reasoning: {}
+Decision: ###{}###
+
+Claim: {}
+Searched Results: {}
+Reasoning: {}
+Decision: ###{}###
+
+Claim: {}
+Searched Results: {}
+Reasoning: {}
+Decision: ###{}###
+
+Claim: {}
+Searched Results: {}
+Reasoning: {}
+Decision: ###{}###

@@ -1,0 +1,1460 @@
+{
+  "metadata": {
+    "source_file": "1_merged_fastfact_annotated.jsonl",
+    "processed_at": "2025-05-19T14:19:13.219390",
+    "total_samples": 400
+  },
+  "overall": {
+    "count": 400,
+    "annotator_labels": {
+      "refuted": 371,
+      "not enough evidence": 572,
+      "supported": 5678,
+      "conflicting evidence": 86,
+      "unverifiable": 43,
+      "not a claim": 421,
+      "n/a": 5,
+      "redundant": 61,
+      "invalid_label": 5,
+      "unsupported": 16,
+      "irrelevant": 15
+    },
+    "agreements": {
+      "disagreed_corrected": 573,
+      "agreed": 5404,
+      "verification_pending": 21
+    },
+    "operations": {
+      "unchanged": 5658,
+      "removed": 482,
+      "added": 824,
+      "revised": 340
+    },
+    "reasons": {},
+    "token_stats": {
+      "extract_prompt": 3858.2,
+      "extract_response": 441.945,
+      "search": 269000.0275,
+      "verify_prompt": 46636.815,
+      "verify_response": 919.615
+    },
+    "response_stats": {
+      "num_sentences": 29.99,
+      "length": 460.515,
+      "total_claims": 16.5225,
+      "supported_claims": 14.75,
+      "unsupported_claims": 1.7225
+    },
+    "prelabel_stats": {
+      "supported": 11.465648854961833,
+      "unsupported": 0.043256997455470736,
+      "irrelevant": 0.022900763358778626,
+      "unsure": 5.2849872773536894
+    }
+  },
+  "all_models": {
+    "count": 400,
+    "annotator_labels": {
+      "refuted": 371,
+      "not enough evidence": 572,
+      "supported": 5678,
+      "conflicting evidence": 86,
+      "unverifiable": 43,
+      "not a claim": 421,
+      "n/a": 5,
+      "redundant": 61,
+      "invalid_label": 5,
+      "unsupported": 16,
+      "irrelevant": 15
+    },
+    "agreements": {
+      "disagreed_corrected": 573,
+      "agreed": 5404,
+      "verification_pending": 21
+    },
+    "operations": {
+      "unchanged": 5658,
+      "removed": 482,
+      "added": 824,
+      "revised": 340
+    },
+    "reasons": {},
+    "token_stats": {
+      "extract_prompt": 3858.2,
+      "extract_response": 441.945,
+      "search": 269000.0275,
+      "verify_prompt": 46636.815,
+      "verify_response": 919.615
+    },
+    "response_stats": {
+      "num_sentences": 29.99,
+      "length": 460.515,
+      "total_claims": 16.5225,
+      "supported_claims": 14.75,
+      "unsupported_claims": 1.7225
+    },
+    "prelabel_stats": {
+      "supported": 11.465648854961833,
+      "unsupported": 0.043256997455470736,
+      "irrelevant": 0.022900763358778626,
+      "unsure": 5.2849872773536894
+    }
+  },
+  "all_benches": {
+    "count": 400,
+    "annotator_labels": {
+      "refuted": 371,
+      "not enough evidence": 572,
+      "supported": 5678,
+      "conflicting evidence": 86,
+      "unverifiable": 43,
+      "not a claim": 421,
+      "n/a": 5,
+      "redundant": 61,
+      "invalid_label": 5,
+      "unsupported": 16,
+      "irrelevant": 15
+    },
+    "agreements": {
+      "disagreed_corrected": 573,
+      "agreed": 5404,
+      "verification_pending": 21
+    },
+    "operations": {
+      "unchanged": 5658,
+      "removed": 482,
+      "added": 824,
+      "revised": 340
+    },
+    "reasons": {},
+    "token_stats": {
+      "extract_prompt": 3858.2,
+      "extract_response": 441.945,
+      "search": 269000.0275,
+      "verify_prompt": 46636.815,
+      "verify_response": 919.615
+    },
+    "response_stats": {
+      "num_sentences": 29.99,
+      "length": 460.515,
+      "total_claims": 16.5225,
+      "supported_claims": 14.75,
+      "unsupported_claims": 1.7225
+    },
+    "prelabel_stats": {
+      "supported": 11.465648854961833,
+      "unsupported": 0.043256997455470736,
+      "irrelevant": 0.022900763358778626,
+      "unsure": 5.2849872773536894
+    }
+  },
+  "grouped": {
+    "by_model": {
+      "DeepSeek-R1": {
+        "count": 100,
+        "annotator_labels": {
+          "refuted": 148,
+          "not enough evidence": 233,
+          "supported": 1661,
+          "conflicting evidence": 30,
+          "not a claim": 93,
+          "unverifiable": 23,
+          "unsupported": 16,
+          "redundant": 15,
+          "irrelevant": 7,
+          "invalid_label": 2
+        },
+        "agreements": {
+          "disagreed_corrected": 237,
+          "agreed": 1639,
+          "verification_pending": 4
+        },
+        "operations": {
+          "unchanged": 1745,
+          "removed": 108,
+          "revised": 135,
+          "added": 247
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 4148.09,
+          "extract_response": 532.16,
+          "search": 495898.03,
+          "verify_prompt": 61087.96,
+          "verify_response": 1191.71
+        },
+        "response_stats": {
+          "num_sentences": 32.33,
+          "length": 488.09,
+          "total_claims": 20.17,
+          "supported_claims": 17.29,
+          "unsupported_claims": 2.85
+        },
+        "prelabel_stats": {
+          "supported": 13.23,
+          "unsupported": 0.17,
+          "irrelevant": 0,
+          "unsure": 6.77
+        }
+      },
+      "DeepSeek-V3": {
+        "count": 100,
+        "annotator_labels": {
+          "supported": 1597,
+          "not enough evidence": 175,
+          "unverifiable": 9,
+          "not a claim": 117,
+          "invalid_label": 2,
+          "conflicting evidence": 26,
+          "refuted": 110,
+          "redundant": 17,
+          "n/a": 1,
+          "irrelevant": 3
+        },
+        "agreements": {
+          "agreed": 1526,
+          "disagreed_corrected": 173,
+          "verification_pending": 5
+        },
+        "operations": {
+          "unchanged": 1603,
+          "removed": 134,
+          "revised": 101,
+          "added": 228
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 4133.38,
+          "extract_response": 488.33,
+          "search": 255521.17,
+          "verify_prompt": 52700.19,
+          "verify_response": 1062.12
+        },
+        "response_stats": {
+          "num_sentences": 32.2,
+          "length": 456.25,
+          "total_claims": 18.73,
+          "supported_claims": 16.74,
+          "unsupported_claims": 1.93
+        },
+        "prelabel_stats": {
+          "supported": 12.85,
+          "unsupported": 0,
+          "irrelevant": 0.02,
+          "unsure": 5.86
+        }
+      },
+      "Qwen2.5-7B-Instruct": {
+        "count": 100,
+        "annotator_labels": {
+          "supported": 1116,
+          "not a claim": 129,
+          "refuted": 79,
+          "not enough evidence": 118,
+          "redundant": 13,
+          "conflicting evidence": 17,
+          "unverifiable": 9,
+          "n/a": 3,
+          "irrelevant": 4
+        },
+        "agreements": {
+          "agreed": 1078,
+          "disagreed_corrected": 131,
+          "verification_pending": 9
+        },
+        "operations": {
+          "unchanged": 1176,
+          "removed": 142,
+          "added": 137,
+          "revised": 42
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3715.88,
+          "extract_response": 380.1,
+          "search": 168872.08,
+          "verify_prompt": 34384.47,
+          "verify_response": 673.88
+        },
+        "response_stats": {
+          "num_sentences": 29.78,
+          "length": 459.25,
+          "total_claims": 13.98,
+          "supported_claims": 12.56,
+          "unsupported_claims": 1.33
+        },
+        "prelabel_stats": {
+          "supported": 10.817204301075268,
+          "unsupported": 0,
+          "irrelevant": 0.06451612903225806,
+          "unsure": 4.150537634408602
+        }
+      },
+      "gpt-4o": {
+        "count": 100,
+        "annotator_labels": {
+          "supported": 1304,
+          "not enough evidence": 46,
+          "not a claim": 82,
+          "n/a": 1,
+          "refuted": 34,
+          "conflicting evidence": 13,
+          "redundant": 16,
+          "irrelevant": 1,
+          "invalid_label": 1,
+          "unverifiable": 2
+        },
+        "agreements": {
+          "agreed": 1161,
+          "disagreed_corrected": 32,
+          "verification_pending": 3
+        },
+        "operations": {
+          "unchanged": 1134,
+          "added": 212,
+          "removed": 98,
+          "revised": 62
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3435.45,
+          "extract_response": 367.19,
+          "search": 155708.83,
+          "verify_prompt": 38374.64,
+          "verify_response": 750.75
+        },
+        "response_stats": {
+          "num_sentences": 25.65,
+          "length": 438.47,
+          "total_claims": 13.21,
+          "supported_claims": 12.41,
+          "unsupported_claims": 0.78
+        },
+        "prelabel_stats": {
+          "supported": 8.92,
+          "unsupported": 0,
+          "irrelevant": 0.01,
+          "unsure": 4.28
+        }
+      }
+    },
+    "by_prompt_source": {
+      "factcheck-bench": {
+        "count": 80,
+        "annotator_labels": {
+          "refuted": 57,
+          "not enough evidence": 106,
+          "supported": 672,
+          "conflicting evidence": 8,
+          "unverifiable": 6,
+          "not a claim": 59,
+          "redundant": 9,
+          "irrelevant": 4,
+          "invalid_label": 1
+        },
+        "agreements": {
+          "disagreed_corrected": 96,
+          "agreed": 675,
+          "verification_pending": 4
+        },
+        "operations": {
+          "unchanged": 762,
+          "removed": 68,
+          "added": 83,
+          "revised": 13
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3172.2125,
+          "extract_response": 308.6125,
+          "search": 208005.8125,
+          "verify_prompt": 34758.425,
+          "verify_response": 715.5625
+        },
+        "response_stats": {
+          "num_sentences": 17.7,
+          "length": 281.4875,
+          "total_claims": 10.5125,
+          "supported_claims": 9.025,
+          "unsupported_claims": 1.475
+        },
+        "prelabel_stats": {
+          "supported": 6.6375,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 3.875
+        }
+      },
+      "hellobench": {
+        "count": 80,
+        "annotator_labels": {
+          "supported": 1643,
+          "not a claim": 161,
+          "refuted": 24,
+          "not enough evidence": 128,
+          "unverifiable": 2,
+          "conflicting evidence": 23,
+          "irrelevant": 3,
+          "redundant": 7
+        },
+        "agreements": {
+          "agreed": 1467,
+          "disagreed_corrected": 61,
+          "verification_pending": 3
+        },
+        "operations": {
+          "unchanged": 1461,
+          "removed": 168,
+          "revised": 70,
+          "added": 295
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 5677.6,
+          "extract_response": 538.2125,
+          "search": 172463.9875,
+          "verify_prompt": 55084.725,
+          "verify_response": 1110.7375
+        },
+        "response_stats": {
+          "num_sentences": 51.4625,
+          "length": 721.7625,
+          "total_claims": 21.6,
+          "supported_claims": 19.65,
+          "unsupported_claims": 1.85
+        },
+        "prelabel_stats": {
+          "supported": 15.2875,
+          "unsupported": 0,
+          "irrelevant": 0.1,
+          "unsure": 6.2125
+        }
+      },
+      "longfact": {
+        "count": 80,
+        "annotator_labels": {
+          "supported": 1745,
+          "not enough evidence": 159,
+          "conflicting evidence": 27,
+          "not a claim": 80,
+          "refuted": 91,
+          "invalid_label": 3,
+          "redundant": 25,
+          "unverifiable": 5,
+          "irrelevant": 5
+        },
+        "agreements": {
+          "agreed": 1606,
+          "disagreed_corrected": 175,
+          "verification_pending": 6
+        },
+        "operations": {
+          "unchanged": 1689,
+          "revised": 98,
+          "removed": 105,
+          "added": 258
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3887.925,
+          "extract_response": 630.7625,
+          "search": 215616.0375,
+          "verify_prompt": 46538.6375,
+          "verify_response": 926.875
+        },
+        "response_stats": {
+          "num_sentences": 35.15,
+          "length": 571.875,
+          "total_claims": 25.025,
+          "supported_claims": 23.075,
+          "unsupported_claims": 1.8625
+        },
+        "prelabel_stats": {
+          "supported": 19.8125,
+          "unsupported": 0,
+          "irrelevant": 0.0125,
+          "unsure": 5.2
+        }
+      },
+      "factscore_bio": {
+        "count": 80,
+        "annotator_labels": {
+          "supported": 426,
+          "not enough evidence": 116,
+          "not a claim": 41,
+          "refuted": 180,
+          "n/a": 4,
+          "conflicting evidence": 15,
+          "unverifiable": 25,
+          "unsupported": 16,
+          "redundant": 5,
+          "irrelevant": 1
+        },
+        "agreements": {
+          "agreed": 507,
+          "disagreed_corrected": 192,
+          "verification_pending": 5
+        },
+        "operations": {
+          "unchanged": 658,
+          "revised": 46,
+          "added": 87,
+          "removed": 46
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 2171.225,
+          "extract_response": 283.8125,
+          "search": 472197.2375,
+          "verify_prompt": 35813.6375,
+          "verify_response": 592.125
+        },
+        "response_stats": {
+          "num_sentences": 10.75,
+          "length": 214.8125,
+          "total_claims": 9.2875,
+          "supported_claims": 7.0625,
+          "unsupported_claims": 2.225
+        },
+        "prelabel_stats": {
+          "supported": 5.712328767123288,
+          "unsupported": 0.2328767123287671,
+          "irrelevant": 0,
+          "unsure": 4.232876712328767
+        }
+      },
+      "expertqa": {
+        "count": 80,
+        "annotator_labels": {
+          "supported": 1192,
+          "conflicting evidence": 13,
+          "not a claim": 80,
+          "not enough evidence": 63,
+          "redundant": 15,
+          "refuted": 19,
+          "n/a": 1,
+          "irrelevant": 2,
+          "unverifiable": 5,
+          "invalid_label": 1
+        },
+        "agreements": {
+          "agreed": 1149,
+          "disagreed_corrected": 49,
+          "verification_pending": 3
+        },
+        "operations": {
+          "unchanged": 1088,
+          "removed": 95,
+          "revised": 113,
+          "added": 101
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 4382.0375,
+          "extract_response": 448.325,
+          "search": 276717.0625,
+          "verify_prompt": 60988.65,
+          "verify_response": 1252.775
+        },
+        "response_stats": {
+          "num_sentences": 34.8875,
+          "length": 512.6375,
+          "total_claims": 16.1875,
+          "supported_claims": 14.9375,
+          "unsupported_claims": 1.2
+        },
+        "prelabel_stats": {
+          "supported": 9.375,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 6.8125
+        }
+      }
+    },
+    "by_model_prompt_source": {
+      "DeepSeek-R1_factcheck-bench": {
+        "count": 20,
+        "annotator_labels": {
+          "refuted": 21,
+          "not enough evidence": 24,
+          "supported": 191,
+          "conflicting evidence": 2,
+          "not a claim": 16,
+          "unverifiable": 1,
+          "irrelevant": 2,
+          "redundant": 2,
+          "invalid_label": 1
+        },
+        "agreements": {
+          "disagreed_corrected": 34,
+          "agreed": 199,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 226,
+          "added": 9,
+          "revised": 8,
+          "removed": 18
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3351.95,
+          "extract_response": 336.3,
+          "search": 222483.4,
+          "verify_prompt": 36397.2,
+          "verify_response": 734.35
+        },
+        "response_stats": {
+          "num_sentences": 20.8,
+          "length": 303.15,
+          "total_claims": 12.6,
+          "supported_claims": 10.6,
+          "unsupported_claims": 1.95
+        },
+        "prelabel_stats": {
+          "supported": 8.4,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 4.2
+        }
+      },
+      "DeepSeek-V3_factcheck-bench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 204,
+          "not enough evidence": 37,
+          "unverifiable": 4,
+          "not a claim": 28,
+          "refuted": 19,
+          "redundant": 4,
+          "conflicting evidence": 3
+        },
+        "agreements": {
+          "agreed": 224,
+          "disagreed_corrected": 31,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 252,
+          "removed": 32,
+          "revised": 4,
+          "added": 12
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3367.8,
+          "extract_response": 371.25,
+          "search": 310529.65,
+          "verify_prompt": 45122.6,
+          "verify_response": 908.95
+        },
+        "response_stats": {
+          "num_sentences": 19.1,
+          "length": 295.05,
+          "total_claims": 14.4,
+          "supported_claims": 12.65,
+          "unsupported_claims": 1.75
+        },
+        "prelabel_stats": {
+          "supported": 9.45,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 4.95
+        }
+      },
+      "Qwen2.5-7B-Instruct_factcheck-bench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 158,
+          "not a claim": 10,
+          "not enough evidence": 35,
+          "refuted": 7,
+          "unverifiable": 1,
+          "irrelevant": 2,
+          "redundant": 1,
+          "conflicting evidence": 2
+        },
+        "agreements": {
+          "agreed": 150,
+          "disagreed_corrected": 26,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 176,
+          "removed": 11,
+          "added": 29,
+          "revised": 1
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3116.5,
+          "extract_response": 296.8,
+          "search": 224047,
+          "verify_prompt": 32235.7,
+          "verify_response": 685.35
+        },
+        "response_stats": {
+          "num_sentences": 17.95,
+          "length": 302.75,
+          "total_claims": 9.35,
+          "supported_claims": 7.95,
+          "unsupported_claims": 1.4
+        },
+        "prelabel_stats": {
+          "supported": 5.8,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 3.55
+        }
+      },
+      "gpt-4o_factcheck-bench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 119,
+          "not enough evidence": 10,
+          "refuted": 10,
+          "conflicting evidence": 1,
+          "not a claim": 5,
+          "redundant": 2
+        },
+        "agreements": {
+          "agreed": 102,
+          "disagreed_corrected": 5,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 108,
+          "added": 33,
+          "removed": 7
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 2852.6,
+          "extract_response": 230.1,
+          "search": 74963.2,
+          "verify_prompt": 25278.2,
+          "verify_response": 533.6
+        },
+        "response_stats": {
+          "num_sentences": 12.95,
+          "length": 225,
+          "total_claims": 5.7,
+          "supported_claims": 4.9,
+          "unsupported_claims": 0.8
+        },
+        "prelabel_stats": {
+          "supported": 2.9,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 2.8
+        }
+      },
+      "DeepSeek-R1_hellobench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 445,
+          "not a claim": 31,
+          "refuted": 16,
+          "not enough evidence": 59,
+          "unverifiable": 1,
+          "conflicting evidence": 8,
+          "redundant": 1
+        },
+        "agreements": {
+          "agreed": 391,
+          "disagreed_corrected": 36
+        },
+        "operations": {
+          "unchanged": 402,
+          "removed": 32,
+          "added": 102,
+          "revised": 25
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 6434.15,
+          "extract_response": 611.3,
+          "search": 194759.25,
+          "verify_prompt": 68986.8,
+          "verify_response": 1368.25
+        },
+        "response_stats": {
+          "num_sentences": 54.15,
+          "length": 675.85,
+          "total_claims": 22.95,
+          "supported_claims": 20.15,
+          "unsupported_claims": 2.8
+        },
+        "prelabel_stats": {
+          "supported": 15.25,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 7.7
+        }
+      },
+      "DeepSeek-V3_hellobench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 438,
+          "not a claim": 29,
+          "conflicting evidence": 8,
+          "not enough evidence": 32,
+          "refuted": 3,
+          "irrelevant": 1,
+          "redundant": 1,
+          "unverifiable": 1
+        },
+        "agreements": {
+          "agreed": 404,
+          "disagreed_corrected": 12,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 389,
+          "removed": 30,
+          "revised": 28,
+          "added": 67
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 5475.05,
+          "extract_response": 550.95,
+          "search": 246803.2,
+          "verify_prompt": 67061.75,
+          "verify_response": 1397.55
+        },
+        "response_stats": {
+          "num_sentences": 51.2,
+          "length": 665.1,
+          "total_claims": 22.65,
+          "supported_claims": 20.4,
+          "unsupported_claims": 2.2
+        },
+        "prelabel_stats": {
+          "supported": 15.1,
+          "unsupported": 0,
+          "irrelevant": 0.05,
+          "unsure": 7.5
+        }
+      },
+      "Qwen2.5-7B-Instruct_hellobench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 385,
+          "not a claim": 55,
+          "not enough evidence": 19,
+          "conflicting evidence": 4,
+          "refuted": 4,
+          "redundant": 3,
+          "irrelevant": 1
+        },
+        "agreements": {
+          "agreed": 344,
+          "disagreed_corrected": 7,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 344,
+          "removed": 58,
+          "revised": 8,
+          "added": 62
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 5662.9,
+          "extract_response": 518.6,
+          "search": 139751.4,
+          "verify_prompt": 39822.9,
+          "verify_response": 788.4
+        },
+        "response_stats": {
+          "num_sentences": 53.1,
+          "length": 811.5,
+          "total_claims": 21.5,
+          "supported_claims": 19.9,
+          "unsupported_claims": 1.3
+        },
+        "prelabel_stats": {
+          "supported": 16.65,
+          "unsupported": 0,
+          "irrelevant": 0.3,
+          "unsure": 4.55
+        }
+      },
+      "gpt-4o_hellobench": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 375,
+          "not a claim": 46,
+          "conflicting evidence": 3,
+          "refuted": 1,
+          "not enough evidence": 18,
+          "redundant": 2,
+          "irrelevant": 1
+        },
+        "agreements": {
+          "agreed": 328,
+          "disagreed_corrected": 6,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 326,
+          "removed": 48,
+          "added": 64,
+          "revised": 9
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 5138.3,
+          "extract_response": 472,
+          "search": 108542.1,
+          "verify_prompt": 44467.45,
+          "verify_response": 888.75
+        },
+        "response_stats": {
+          "num_sentences": 47.4,
+          "length": 734.6,
+          "total_claims": 19.3,
+          "supported_claims": 18.15,
+          "unsupported_claims": 1.1
+        },
+        "prelabel_stats": {
+          "supported": 14.15,
+          "unsupported": 0,
+          "irrelevant": 0.05,
+          "unsure": 5.1
+        }
+      },
+      "DeepSeek-R1_longfact": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 526,
+          "not enough evidence": 71,
+          "conflicting evidence": 8,
+          "refuted": 34,
+          "not a claim": 14,
+          "unverifiable": 1,
+          "irrelevant": 3,
+          "redundant": 9
+        },
+        "agreements": {
+          "agreed": 494,
+          "disagreed_corrected": 70,
+          "verification_pending": 2
+        },
+        "operations": {
+          "unchanged": 529,
+          "revised": 37,
+          "added": 80,
+          "removed": 23
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3623.75,
+          "extract_response": 753.65,
+          "search": 345909.45,
+          "verify_prompt": 63191.75,
+          "verify_response": 1272.65
+        },
+        "response_stats": {
+          "num_sentences": 36.1,
+          "length": 540.25,
+          "total_claims": 30.9,
+          "supported_claims": 28.2,
+          "unsupported_claims": 2.7
+        },
+        "prelabel_stats": {
+          "supported": 24,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 6.9
+        }
+      },
+      "DeepSeek-V3_longfact": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 500,
+          "not enough evidence": 61,
+          "not a claim": 15,
+          "invalid_label": 2,
+          "refuted": 27,
+          "conflicting evidence": 9,
+          "unverifiable": 3,
+          "irrelevant": 2,
+          "redundant": 5
+        },
+        "agreements": {
+          "agreed": 461,
+          "disagreed_corrected": 61,
+          "verification_pending": 1
+        },
+        "operations": {
+          "revised": 33,
+          "unchanged": 490,
+          "removed": 20,
+          "added": 84
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 4223.4,
+          "extract_response": 738.05,
+          "search": 237753.65,
+          "verify_prompt": 52736.1,
+          "verify_response": 1065.9
+        },
+        "response_stats": {
+          "num_sentences": 39.6,
+          "length": 582.45,
+          "total_claims": 28.65,
+          "supported_claims": 25.65,
+          "unsupported_claims": 2.75
+        },
+        "prelabel_stats": {
+          "supported": 22.55,
+          "unsupported": 0,
+          "irrelevant": 0.05,
+          "unsure": 6.05
+        }
+      },
+      "Qwen2.5-7B-Instruct_longfact": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 319,
+          "refuted": 23,
+          "not a claim": 40,
+          "not enough evidence": 27,
+          "conflicting evidence": 8,
+          "redundant": 3,
+          "unverifiable": 1
+        },
+        "agreements": {
+          "agreed": 311,
+          "disagreed_corrected": 39,
+          "verification_pending": 2
+        },
+        "operations": {
+          "unchanged": 340,
+          "removed": 43,
+          "revised": 12,
+          "added": 28
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3867.75,
+          "extract_response": 533.75,
+          "search": 159758.3,
+          "verify_prompt": 35628.05,
+          "verify_response": 684.85
+        },
+        "response_stats": {
+          "num_sentences": 33.2,
+          "length": 599.05,
+          "total_claims": 21,
+          "supported_claims": 19.2,
+          "unsupported_claims": 1.75
+        },
+        "prelabel_stats": {
+          "supported": 17.05,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 3.95
+        }
+      },
+      "gpt-4o_longfact": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 400,
+          "not a claim": 11,
+          "refuted": 7,
+          "conflicting evidence": 2,
+          "redundant": 8,
+          "invalid_label": 1
+        },
+        "agreements": {
+          "agreed": 340,
+          "disagreed_corrected": 5,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 330,
+          "removed": 19,
+          "revised": 16,
+          "added": 66
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3836.8,
+          "extract_response": 497.6,
+          "search": 119042.75,
+          "verify_prompt": 34598.65,
+          "verify_response": 684.1
+        },
+        "response_stats": {
+          "num_sentences": 31.7,
+          "length": 565.75,
+          "total_claims": 19.55,
+          "supported_claims": 19.25,
+          "unsupported_claims": 0.25
+        },
+        "prelabel_stats": {
+          "supported": 15.65,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 3.9
+        }
+      },
+      "DeepSeek-R1_factscore_bio": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 131,
+          "not enough evidence": 44,
+          "not a claim": 13,
+          "conflicting evidence": 5,
+          "refuted": 66,
+          "unverifiable": 16,
+          "unsupported": 16,
+          "redundant": 3,
+          "irrelevant": 1
+        },
+        "agreements": {
+          "agreed": 177,
+          "disagreed_corrected": 71
+        },
+        "operations": {
+          "unchanged": 229,
+          "revised": 19,
+          "added": 32,
+          "removed": 16
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 2521.2,
+          "extract_response": 393,
+          "search": 1259929.25,
+          "verify_prompt": 52162.85,
+          "verify_response": 798.1
+        },
+        "response_stats": {
+          "num_sentences": 14.45,
+          "length": 297.15,
+          "total_claims": 13.2,
+          "supported_claims": 9.05,
+          "unsupported_claims": 4.15
+        },
+        "prelabel_stats": {
+          "supported": 6.75,
+          "unsupported": 0.85,
+          "irrelevant": 0,
+          "unsure": 5.6
+        }
+      },
+      "DeepSeek-V3_factscore_bio": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 128,
+          "not a claim": 9,
+          "not enough evidence": 25,
+          "conflicting evidence": 4,
+          "refuted": 55,
+          "redundant": 1,
+          "unverifiable": 1
+        },
+        "agreements": {
+          "agreed": 134,
+          "disagreed_corrected": 57,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 180,
+          "revised": 12,
+          "removed": 10,
+          "added": 24
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 2250.15,
+          "extract_response": 296,
+          "search": 181280.8,
+          "verify_prompt": 30753.8,
+          "verify_response": 533.4
+        },
+        "response_stats": {
+          "num_sentences": 11.55,
+          "length": 204.15,
+          "total_claims": 10.1,
+          "supported_claims": 8.45,
+          "unsupported_claims": 1.65
+        },
+        "prelabel_stats": {
+          "supported": 6.8,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 3.3
+        }
+      },
+      "Qwen2.5-7B-Instruct_factscore_bio": {
+        "count": 20,
+        "annotator_labels": {
+          "not enough evidence": 31,
+          "refuted": 43,
+          "supported": 39,
+          "conflicting evidence": 2,
+          "n/a": 3,
+          "unverifiable": 7,
+          "not a claim": 3
+        },
+        "agreements": {
+          "agreed": 67,
+          "disagreed_corrected": 51,
+          "verification_pending": 4
+        },
+        "operations": {
+          "unchanged": 117,
+          "revised": 5,
+          "added": 7,
+          "removed": 3
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 1637.95,
+          "extract_response": 189,
+          "search": 173133.9,
+          "verify_prompt": 23267.85,
+          "verify_response": 394.2
+        },
+        "response_stats": {
+          "num_sentences": 7.65,
+          "length": 152.75,
+          "total_claims": 5.95,
+          "supported_claims": 4.25,
+          "unsupported_claims": 1.7
+        },
+        "prelabel_stats": {
+          "supported": 5.230769230769231,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 3.923076923076923
+        }
+      },
+      "gpt-4o_factscore_bio": {
+        "count": 20,
+        "annotator_labels": {
+          "n/a": 1,
+          "supported": 128,
+          "conflicting evidence": 4,
+          "refuted": 16,
+          "not enough evidence": 16,
+          "not a claim": 16,
+          "redundant": 1,
+          "unverifiable": 1
+        },
+        "agreements": {
+          "agreed": 129,
+          "disagreed_corrected": 13
+        },
+        "operations": {
+          "unchanged": 132,
+          "added": 24,
+          "removed": 17,
+          "revised": 10
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 2275.6,
+          "extract_response": 257.25,
+          "search": 274445,
+          "verify_prompt": 37070.05,
+          "verify_response": 642.8
+        },
+        "response_stats": {
+          "num_sentences": 9.35,
+          "length": 205.2,
+          "total_claims": 7.9,
+          "supported_claims": 6.5,
+          "unsupported_claims": 1.4
+        },
+        "prelabel_stats": {
+          "supported": 3.9,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 4
+        }
+      },
+      "DeepSeek-R1_expertqa": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 368,
+          "conflicting evidence": 7,
+          "not a claim": 19,
+          "not enough evidence": 35,
+          "refuted": 11,
+          "irrelevant": 1,
+          "unverifiable": 4,
+          "invalid_label": 1
+        },
+        "agreements": {
+          "agreed": 378,
+          "disagreed_corrected": 26,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 359,
+          "removed": 19,
+          "revised": 46,
+          "added": 24
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 4809.4,
+          "extract_response": 566.55,
+          "search": 456408.8,
+          "verify_prompt": 84701.2,
+          "verify_response": 1785.2
+        },
+        "response_stats": {
+          "num_sentences": 36.15,
+          "length": 624.05,
+          "total_claims": 21.2,
+          "supported_claims": 18.45,
+          "unsupported_claims": 2.65
+        },
+        "prelabel_stats": {
+          "supported": 11.75,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 9.45
+        }
+      },
+      "DeepSeek-V3_expertqa": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 327,
+          "not enough evidence": 20,
+          "refuted": 6,
+          "conflicting evidence": 2,
+          "n/a": 1,
+          "not a claim": 36,
+          "redundant": 6
+        },
+        "agreements": {
+          "agreed": 303,
+          "disagreed_corrected": 12,
+          "verification_pending": 1
+        },
+        "operations": {
+          "revised": 24,
+          "added": 41,
+          "unchanged": 292,
+          "removed": 42
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 5350.5,
+          "extract_response": 485.4,
+          "search": 301238.55,
+          "verify_prompt": 67826.7,
+          "verify_response": 1404.8
+        },
+        "response_stats": {
+          "num_sentences": 39.55,
+          "length": 534.5,
+          "total_claims": 17.85,
+          "supported_claims": 16.55,
+          "unsupported_claims": 1.3
+        },
+        "prelabel_stats": {
+          "supported": 10.35,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 7.5
+        }
+      },
+      "Qwen2.5-7B-Instruct_expertqa": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 215,
+          "redundant": 6,
+          "refuted": 2,
+          "conflicting evidence": 1,
+          "not enough evidence": 6,
+          "not a claim": 21,
+          "irrelevant": 1
+        },
+        "agreements": {
+          "agreed": 206,
+          "disagreed_corrected": 8,
+          "verification_pending": 1
+        },
+        "operations": {
+          "unchanged": 199,
+          "removed": 27,
+          "revised": 16,
+          "added": 11
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 4294.3,
+          "extract_response": 362.35,
+          "search": 147669.8,
+          "verify_prompt": 40967.85,
+          "verify_response": 816.6
+        },
+        "response_stats": {
+          "num_sentences": 37,
+          "length": 430.2,
+          "total_claims": 12.1,
+          "supported_claims": 11.5,
+          "unsupported_claims": 0.5
+        },
+        "prelabel_stats": {
+          "supported": 7.4,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 4.7
+        }
+      },
+      "gpt-4o_expertqa": {
+        "count": 20,
+        "annotator_labels": {
+          "supported": 282,
+          "not a claim": 4,
+          "not enough evidence": 2,
+          "redundant": 3,
+          "conflicting evidence": 3,
+          "unverifiable": 1
+        },
+        "agreements": {
+          "agreed": 262,
+          "disagreed_corrected": 3
+        },
+        "operations": {
+          "revised": 27,
+          "removed": 7,
+          "added": 25,
+          "unchanged": 238
+        },
+        "reasons": {},
+        "token_stats": {
+          "extract_prompt": 3073.95,
+          "extract_response": 379,
+          "search": 201551.1,
+          "verify_prompt": 50458.85,
+          "verify_response": 1004.5
+        },
+        "response_stats": {
+          "num_sentences": 26.85,
+          "length": 461.8,
+          "total_claims": 13.6,
+          "supported_claims": 13.25,
+          "unsupported_claims": 0.35
+        },
+        "prelabel_stats": {
+          "supported": 8,
+          "unsupported": 0,
+          "irrelevant": 0,
+          "unsure": 5.6
+        }
+      }
+    }
+  }
+}

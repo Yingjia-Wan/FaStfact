@@ -1,0 +1,60 @@
+You are trying to verify how factual a response to a question or request is. To do so, you need to break down a text between <SOS> and <EOS>, and extract as many atomic factual claims mentioned in the text as possible. 
+Each of these fine-grained factual claims should be verifiable against reliable external world knowledge (e.g., via Wikipedia). Any story, personal experiences, hypotheticals (e.g., "would be" or subjunctive), subjective statements (e.g., opinions), suggestions, advice, instructions, and other such content should not be included in the list. Note that biographical, historical, scientific, and other such informative texts are not personal experiences or stories, so you should extract verifiable factual claims from them. Each extracted claim should also be describing either one single event (e.g., "Nvidia is founded in 1993 in Sunnyvale, California, U.S.") or single state (e.g., "UMass Amherst has existed for 161 years.") with necessary time and location information. Quotations should be extracted verbatim with the source when available. Listed references should be ignored.
+For the first step, you should focus on the named entities and numbers in each sentence of the text and extract relevant information. Do not extract claims from sentences outside the content between <EOS> and <SOS>. Those sentences are extra context for you to recover pronouns, definite phrases (e.g., "the victims"), and so on. Each factual claim should be understandable on its own and require no additional context. This means that each claim must be situated within relevant temporal information and location whenever available, and all entities in the claim must be referred to by name but not pronoun. Use the name of entities (e.g., 'Edward Jenner') rather than definite noun phrases (e.g., 'the doctor') whenever possible. If a definite noun phrase is used, be sure to add modifiers (e.g., a embedded clause, a prepositional phrase, etc.). Keep each fact to one sentence with zero or at most one embedded clause.
+You do not need to justify what you extract. No need to overthink this step, it really comes down to just extracting verifiable claims regardless of correctness. If there is no extractable claim in the sentence, please write "No verifiable claim.".
+
+Here are some examples:
+
+Question: In which year did Taylor Swift win a Golden Globe Award?
+Response: <SOS>Taylor Swift won her first Golden Globe Award in 2020. She received the award for Best Original Song for \"Beautiful Ghosts\", which she co-wrote with Andrew Lloyd Webber for the film \"Cats.\"<EOS>
+Claims:
+- Taylor Swift won her first Golden Globe Award in 2020.
+- Taylor Swift received the Golden Globe Award for Best Original Song for "Beautiful Ghosts" in 2020.
+- Taylor Swift co-wrote "Beautiful Ghosts" with Andrew Lloyd Webber.
+- "Beautiful Ghosts" was written for the film "Cats."
+
+Question: What NASA programs would support our college in starting a robotics program?
+Response: <SOS>Here are a few:
+1. NASA Robotics Alliance Project (RAP): This program provides educational resources and support for robotics teams, including college-level teams, that are participating in NASA robotics competitions.<EOS>
+2. NASA Minority University Research and Education Project (MUREP): This program provides funding and resources for colleges and universities with a significant minority student population to develop research and education programs in STEM fields, including robotics.
+Claims:
+- NASA has a program called NASA Robotics Alliance Project (RAP). 
+- NASA Robotics Alliance Project provides educational resources and supports for robotics teams. 
+- NASA Robotics Alliance Project provides supports educational resources and for college-level teams that are participating in NASA robotics competitions. 
+
+Question: How can I find a law firm that specializes in copyright related matters?
+Response: <SOS>There are a few ways:
+1. Online search: Search online using keywords like \"copyright law firm\" or \"copyright lawyer\" along with your location.
+2. Ask for referrals: Ask your friends, colleagues, or other professionals in your network if they know of any law firms that specialize in copyright law.<EOS>
+Claims:
+No verifiable claim.
+
+Question: I want Ubutu but i have a question first. I'm not new to Ubuntu, my friends use it. i never had a chance to use it on my own PC i'm running on a window 8 and it has no info like product keys and such it was on the box and this is a hand me down PC. My question is do i need those for the installation, if so how do i retrieve this info.
+Response: <SOS>You might need to make a windows recovery disk. You need a windows recovery disk in the event you have a problem with windows.<EOS>
+Claims:
+- One needs a windows recovery disk if one has a problem with windows when installing Ubuntu. 
+
+Question: What happens to you if you eat watermelon seeds?
+Response: <SOS>If you accidentally or intentionally swallow a few watermelon seeds while eating the fruit, there is no need to worry. You can safely consume watermelon seeds as they even possess some beneficial properties such as being a good source of protein.<EOS>
+Claims:
+- Consuming a few watermelon seeds while eating the fruit is not dangerous for the human body. 
+- Watermelon seeds are a good source of protein. 
+
+Question: How come the Netherlands managed to pull their weight versus Europe's superpowers with a population of a measly 1.5 million?
+The trading empire of the Dutch Republic would be impressive alone for it's achievements in trade and warfare, but it's astounding when you realize that by 1600, the Netherlands had 1.5m for population! Compare that to 18m of France, or 9m approx of Spain, or 5.6m by England.
+I get that they were very sophisticated and had advanced commerce, production and politics. But still... 1.5 million? How is that enough manpower to arm enough soldiers on land to prevent invasions, and sailors to operate a huge fleet? And given the immense wealth and manpower of Spain and Portugal compared to that of the Dutch - what prevented them from just dropping in on Amsterdam and burn it so to keep them out of their business? Or maybe drop in on Calais and march on land if they didn't have enough naval power.
+Response: <SOS>I'm writing a paper on the Dutch army around that time at this very moment.
+I'll try to answer a couple of your questions. One thing to know is that the military strength of the Netherlands varied greatly in short periods of time. I'll mostly be focussing on the period around 1600, because that's the year you mentioned in your question.<EOS>
+Another thing to know is that the 'manpower' of the Netherlands itself doesn't really translate well into actual figures for the Dutch army.
+Claims:
+- The military strength of the Netherlands varied greatly in short periods of time around 1600. 
+
+Question: What is the smallest positive integer that cannot be expressed as the sum of 7s, 11s, and 13s?
+Response: <SOS>This is a classic problem in number theory known as the Frobenius coin problem or the coin problem of Frobenius. The formula for the smallest integer that cannot be expressed as the sum of two relatively prime integers a and b is ab - a - b. In this case, the integers 7, 11, and 13 are pairwise relatively prime, so we can apply this formula to find the smallest integer that cannot be expressed as a sum of 7s, 11s, and 13s.\n\n\n\n\nUsing the formula, we get:\n\n\n\n\n7 x 11 - 7 - 11 = 59\n\n\n\n\nSo the smallest positive integer that cannot be expressed as the sum of 7s, 11s, and 13s is 59.<EOS>
+Claims:
+- The Frobenius coin problem formula for the smallest integer that cannot be expressed as the sum of two relatively prime integers a and b is ab - a - b. 
+
+Extract *verifiable atomic* claims.
+
+{snippet}
+Claims:

@@ -1,0 +1,9 @@
+spacy
+openai
+anthropic
+tiktoken
+tqdm
+python-dotenv
+datasets
+rank_bm25
+nltk
