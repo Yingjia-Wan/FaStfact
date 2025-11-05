@@ -7,7 +7,7 @@ FaStfact is a reliable and efficient factuality evaluation framework of long-for
   <img src="assets/main.png" alt="Overview of FaStfact pipeline for evaluating long-form generations" width="700"/>
 </p>
 
-The repo open-sources:
+The repo for the EMNLP 2025 finding paper: [FaStfact: Faster, Stronger Long-Form Factuality Evaluations in LLMs](https://arxiv.org/pdf/2510.12839). We open-source:
 - [**FaStfact**](#run-fastfact): our easy-to-run tool for evaluating long-form factuality of any QA generation of any length;
 - [**FaStfact-Bench**](#fastfact-bench): a fully annotated long-form factuality benchmark of 400 pairs of LLM QA generations;
 - [**Annotation interface tool**](#annotation-interface): for FaStfact-Bench.
@@ -15,49 +15,39 @@ The repo open-sources:
 ## 📁 Repository Structure
 ```
 FaStfact/
-├── assets/                          # Images and figures for README
+├── assets/
 │   ├── complexity.png
 │   ├── main.png
 │   └── model_leaderboard.png
-├── configs/                         # Configuration files
+├── configs/
 │   ├── default.json
 │   └── README.md
-├── data/                            # Sample data and outputs
-│   ├── data_sample.jsonl           # Example input file 1
-│   ├── data_sample2.jsonl          # Example input file 2
-│   ├── cache/                      # API response cache
-│   └── [output_folders]/           # Generated evaluation results
-├── FaStfact-Bench/                 # Benchmark data and annotation tools
+├── data/
+│   ├── data_sample.jsonl
+│   └── data_sample2.jsonl
+├── FaStfact-Bench/
+│   ├── FastFact_annotation/
 │   ├── fastfact-bench_annotated.jsonl
-│   ├── fastfact-bench_for_eval.jsonl
-│   └── FastFact_annotation/
-│       ├── annotation_tool/
-│       │   └── fastfact.html       # Web-based annotation interface
-│       ├── Annotation Protocol for FaStfact.pdf
-│       └── annotation_stats.json
-├── pipeline/                        # Core evaluation pipeline
-│   ├── FaStfact.py                 # Main pipeline orchestrator
-│   ├── claim_extractor.py          # Claim extraction module
-│   ├── claim_verifier.py           # Claim verification module
-│   ├── retriever.py                # Evidence retrieval (BM25)
-│   ├── web_search_API.py           # Web search interface (Jina)
-│   ├── response_API.py             # LLM API interface
-│   ├── score_metrics.py            # F1@K' score calculation
-│   ├── utils.py                    # Utility functions
-│   ├── config.py                   # Configuration management
-│   └── .env                        # API keys (create this file)
-├── prompt/                          # Prompt templates
+│   └── fastfact-bench_for_eval.jsonl
+├── pipeline/
+│   ├── __init__.py
+│   ├── claim_extractor.py
+│   ├── claim_verifier.py
+│   ├── config.py
+│   ├── FaStfact.py
+│   ├── response_API.py
+│   ├── retriever.py
+│   ├── score_metrics.py
+│   ├── utils.py
+│   └── web_search_API.py
+├── prompt/
 │   ├── extraction/
-│   │   ├── m=6_qa_template.txt
-│   │   └── m=6_qa_template_more_examples.txt
 │   └── verification/
-│       └── jina_search/
-│           ├── verification_instruction_5labels.txt
-│           └── few_shot_examples_5labels.jsonl
-├── requirements.txt                 # Python dependencies
-├── run_FaStfact.sh                 # Example shell script
+├── .gitignore
 ├── LICENSE
-└── README.md
+├── README.md
+├── requirements.txt
+└── run_FaStfact.sh
 ```
 
 ## ⚙️ Setup
