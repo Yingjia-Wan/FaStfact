@@ -8,17 +8,14 @@ FaStfact is a reliable and efficient factuality evaluation framework of long-for
 </p>
 
 The repo for the EMNLP 2025 finding paper: [FaStfact: Faster, Stronger Long-Form Factuality Evaluations in LLMs](https://arxiv.org/pdf/2510.12839). We open-source:
-- [**FaStfact**](#run-fastfact): our easy-to-run tool for evaluating long-form factuality of any QA generation of any length;
-- [**FaStfact-Bench**](#fastfact-bench): a fully annotated long-form factuality benchmark of 400 pairs of LLM QA generations;
-- [**Annotation interface tool**](#annotation-interface): for FaStfact-Bench.
+- [**FaStfact**](#--run-fastfact): our easy-to-run tool for evaluating long-form factuality of any QA generation of any length;
+- [**FaStfact-Bench**](#-fastfact-bench): a fully annotated long-form factuality benchmark of 400 pairs of LLM QA generations;
+- [**Factuality Annotation Interface tool**](#-factuality-annotation-tool): for FaStfact-Bench.
 
 ## 📁 Repository Structure
 ```
 FaStfact/
 ├── assets/
-│   ├── complexity.png
-│   ├── main.png
-│   └── model_leaderboard.png
 ├── configs/
 │   ├── default.json
 │   └── README.md
@@ -43,11 +40,7 @@ FaStfact/
 ├── prompt/
 │   ├── extraction/
 │   └── verification/
-├── .gitignore
-├── LICENSE
-├── README.md
 ├── requirements.txt
-└── run_FaStfact.sh
 ```
 
 ## ⚙️ Setup
